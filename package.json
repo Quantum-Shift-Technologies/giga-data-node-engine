@@ -1,0 +1,21 @@
+{
+  "name": "giga-data-engine-backend",
+  "version": "1.0.0",
+  "description": "Sovereign Agronomic Data Infrastructure API serving geo-boundaries, yield logs, pathology diagnostics, and crop cut datasets.",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "nodemon index.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
