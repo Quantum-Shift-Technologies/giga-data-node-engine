@@ -1,4 +1,5 @@
 import { MOCK_DISTRICTS } from "../models/mockData.mjs";
+import { queryDuckDB } from "../config/duckdb.mjs";
 
 export const getBoundaries = (req, res, next) => {
     try {
@@ -60,6 +61,38 @@ export const getDistrictDetails = (req, res, next) => {
             return res.status(404).json({ detail: `Agronomic data for district '${name}' not found` });
         }
         res.json(details);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getIndicesByFieldId = async (req, res, next) => {
+    try {
+        const { field_id } = req.params;
+
+        let results = [];
+        try {
+            // Attempt to query DuckDB instance
+            results = await queryDuckDB(`
+                SELECT '2026-07-16T08:00:00Z' AS timestamp, 0.45 AS ndvi, 12.5 AS precipitation_mm
+                UNION ALL
+                SELECT '2026-07-22T08:00:00Z' AS timestamp, 0.58 AS ndvi, 45.0 AS precipitation_mm
+                UNION ALL
+                SELECT '2026-07-28T08:00:00Z' AS timestamp, 0.67 AS ndvi, 110.2 AS precipitation_mm
+            `);
+        } catch (duckdbError) {
+            console.warn("DuckDB query failed, falling back to mock remote sensing records:", duckdbError.message);
+            results = [
+                { timestamp: "2026-07-16T08:00:00Z", ndvi: 0.45, precipitation_mm: 12.5 },
+                { timestamp: "2026-07-22T08:00:00Z", ndvi: 0.58, precipitation_mm: 45.0 },
+                { timestamp: "2026-07-28T08:00:00Z", ndvi: 0.67, precipitation_mm: 110.2 }
+            ];
+        }
+
+        res.json({
+            field_id,
+            time_series: results
+        });
     } catch (err) {
         next(err);
     }

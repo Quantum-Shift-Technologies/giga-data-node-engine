@@ -48,7 +48,7 @@ export const MOCK_DATASETS = [
         votes: 188,
         size: "1.2 GB",
         format: "JPEG/JSON",
-        last_updated: "May 8, 2024",
+        last_updated: "July 25, 2026",
         tier: "Gold",
         coverage: "Mashonaland & Midlands",
         resolution: "Single Leaf Photo",
@@ -65,7 +65,7 @@ export const MOCK_DATASETS = [
         votes: 112,
         size: "85.2 MB",
         format: "GeoJSON",
-        last_updated: "May 5, 2024",
+        last_updated: "July 22, 2026",
         tier: "Bronze",
         coverage: "National Boundaries",
         resolution: "Field Geometry",
@@ -113,11 +113,11 @@ export const MOCK_SCHEMAS = {
 // Mock sample records for preview spreadsheets
 export const MOCK_SAMPLES = {
     maize_yield_surveys: [
-        { field_id: "ZIM-MASH-E-0001", province: "Mashonaland East", district: "Mutoko", yield_t_ha: 4.35, moisture_pct: 13.8, planting_date: "2023-11-12", variety: "SC 513", field_size_ha: 2.10 },
-        { field_id: "ZIM-MID-0002", province: "Midlands", district: "Gweru", yield_t_ha: 3.92, moisture_pct: 14.1, planting_date: "2023-11-08", variety: "PAN 53", field_size_ha: 1.80 },
-        { field_id: "ZIM-MASV-0003", province: "Masvingo", district: "Chiredzi", yield_t_ha: 4.78, moisture_pct: 13.2, planting_date: "2023-11-15", variety: "SC 403", field_size_ha: 2.50 },
-        { field_id: "ZIM-MATN-0004", province: "Matabeleland North", district: "Binga", yield_t_ha: 2.91, moisture_pct: 15.6, planting_date: "2023-11-20", variety: "SC 627", field_size_ha: 1.60 },
-        { field_id: "ZIM-MASH-C-0005", province: "Mashonaland Central", district: "Centenary", yield_t_ha: 5.12, moisture_pct: 12.9, planting_date: "2023-11-10", variety: "SC 513", field_size_ha: 2.30 }
+        { field_id: "ZIM-MASH-E-0001", province: "Mashonaland East", district: "Mutoko", yield_t_ha: 4.35, moisture_pct: 13.8, planting_date: "2026-07-22", variety: "SC 513", field_size_ha: 2.10 },
+        { field_id: "ZIM-MID-0002", province: "Midlands", district: "Gweru", yield_t_ha: 3.92, moisture_pct: 14.1, planting_date: "2026-07-18", variety: "PAN 53", field_size_ha: 1.80 },
+        { field_id: "ZIM-MASV-0003", province: "Masvingo", district: "Chiredzi", yield_t_ha: 4.78, moisture_pct: 13.2, planting_date: "2026-07-25", variety: "SC 403", field_size_ha: 2.50 },
+        { field_id: "ZIM-MATN-0004", province: "Matabeleland North", district: "Binga", yield_t_ha: 2.91, moisture_pct: 15.6, planting_date: "2026-07-28", variety: "SC 627", field_size_ha: 1.60 },
+        { field_id: "ZIM-MASH-C-0005", province: "Mashonaland Central", district: "Centenary", yield_t_ha: 5.12, moisture_pct: 12.9, planting_date: "2026-07-20", variety: "SC 513", field_size_ha: 2.30 }
     ],
     sentinel_crop_grids: [
         { grid_cell_id: "grid_36592", latitude: -17.432, longitude: 31.021, mean_ndvi: 0.62, mean_ndwi: 0.28, crop_class: "MAIZE" },

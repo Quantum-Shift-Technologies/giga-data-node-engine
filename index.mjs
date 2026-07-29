@@ -2,12 +2,21 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
 
 import datasetRoutes from "./src/routes/datasetRoutes.mjs";
 import mapRoutes from "./src/routes/mapRoutes.mjs";
 import accessRequestRoutes from "./src/routes/accessRequestRoutes.mjs";
 import chatbotRoutes from "./src/routes/chatbotRoutes.mjs";
+import ingestRoutes from "./src/routes/ingestRoutes.mjs";
+import consentRoutes from "./src/routes/consentRoutes.mjs";
+import mediaRoutes from "./src/routes/mediaRoutes.mjs";
+import commercialRoutes from "./src/routes/commercialRoutes.mjs";
 import { openapiSpecification } from "./src/docs/openapi.mjs";
+import { initializeDatabase } from "./src/config/databaseBootstrap.mjs";
+import { typeDefs } from "./src/graphql/schema.mjs";
+import { resolvers } from "./src/graphql/resolvers.mjs";
 
 dotenv.config();
 
@@ -31,7 +40,8 @@ app.get("/", (req, res) => {
         status: "Online",
         endpoints: {
             swagger_documentation: "/api-docs",
-            api_docs_json: "/api-docs.json"
+            api_docs_json: "/api-docs.json",
+            graphql_api: "/graphql"
         }
     });
 });
@@ -57,6 +67,11 @@ app.use(`${prefix}/datasets`, datasetRoutes);
 app.use(`${prefix}/map`, mapRoutes);
 app.use(`${prefix}/access-requests`, accessRequestRoutes);
 app.use(`${prefix}/chatbot`, chatbotRoutes);
+app.use(`${prefix}/ingest`, ingestRoutes);
+app.use(`${prefix}/consent`, consentRoutes);
+app.use(`${prefix}/media`, mediaRoutes);
+app.use(`${prefix}/commercial`, commercialRoutes);
+app.use(`${prefix}`, commercialRoutes); // also mount directly under prefix for /policy/yield-forecast paths
 
 // Global Error Handler
 app.use((err, req, res, next) => {
@@ -68,6 +83,26 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+async function start() {
+    try {
+        await initializeDatabase();
+    } catch (err) {
+        console.error("Database connection/sync warning:", err.message);
+    }
+
+    const apolloServer = new ApolloServer({
+        typeDefs,
+        resolvers,
+    });
+    await apolloServer.start();
+    app.use("/graphql", expressMiddleware(apolloServer));
+
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+        console.log(`GraphQL endpoint available at http://localhost:${PORT}/graphql`);
+    });
+}
+
+start();
+
+
